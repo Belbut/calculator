@@ -6,50 +6,58 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
 </head>
 
 <body>
     <h1>Belbut Calculator</h1>
 
     <div id="calculator-container">
-        <div id="output-cc"></div>
+        <div id="output-cc">
+            <div id="output-function"></div>
+            <div id="output-result"></div>
+        </div>
 
         <div id="input-cc">
-            <div class="line-icc">
-                <button class="operator" id="clear"></button>
-                <button class="operator" id="back"></button>
-                <button class="operator" id="percentage"></button>
-                <button class="operator" id="division"></button>
+            <div class="line-icc" id="line1">
+                <button class="operator btn" id="clear">C</button>
+                <button class="operator btn" id="back">&#8592;</button>
+                <button class="operator btn" id="factorial">!</button>
+                <button class="operator btn" id="division">&#247;</button>
             </div>
 
-            <div class="line-icc">
-                <button class="number" id="numb-7"></button>
-                <button class="number" id="numb-8"></button>
-                <button class="number" id="numb-9"></button>
-                <button class="operator" id="multiplication"></button>
+            <div class="line-icc" id="line2">
+                <button class="number btn" id="numb-7">7</button>
+                <button class="number btn" id="numb-8">8</button>
+                <button class="number btn" id="numb-9">9</button>
+                <button class="operator btn" id="multiplication">&#215;</button>
             </div>
 
-            <div class="line-icc">
-                <button class="number" id="numb-4"></button>
-                <button class="number" id="numb-5"></button>
-                <button class="number" id="numb-6"></button>
-                <button class="operator" id="subtration"></button>
+            <div class="line-icc" id="line3">
+                <button class="number btn" id="numb-4">4</button>
+                <button class="number btn" id="numb-5">5</button>
+                <button class="number btn" id="numb-6">6</button>
+                <button class="operator btn" id="subtration">&#8722;</button>
             </div>
 
-            <div class="line-icc">
-                <button class="number" id="numb-1"></button>
-                <button class="number" id="numb-2"></button>
-                <button class="number" id="numb-3"></button>
-                <button class="operator" id="addition"></button>
+            <div class="line-icc" id="line4">
+                <button class="number btn" id="numb-1">1</button>
+                <button class="number btn" id="numb-2">2</button>
+                <button class="number btn" id="numb-3">3</button>
+                <button class="operator btn" id="addition">&#43;</button>
             </div>
 
-            <div class="line-icc">
-                <button class="number" id="numb-0"></button>
-                <button class="number" id="numb.decimal"></button>
-                <button class="operator" id="calculate"></button>
+            <div class="line-icc " id="line5">
+                <button class="number btn" id="numb-0">0</button>
+                <button class="number btn" id="numb-decimal">,</button>
+                <button class="operator btn" id="calculation">=</button>
             </div>
         </div>
     </div>
+
+    <div id="footer-container">Copyright © Belbut 2022</div>
+
 </body>
 
 </html>
