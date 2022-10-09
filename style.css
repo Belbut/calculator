@@ -39,11 +39,21 @@ body {
 }
 
 #output-function {
-    flex: 1 1 0;
+    flex: 1.5 1 0;
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #output-result {
-    flex: 1.5 1 0;
+    flex: 1 1 0;
+    text-align: end;
+    border: 1px solid blue;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
 }
 
 #input-cc {
