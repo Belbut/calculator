@@ -13,6 +13,12 @@ function numberListener() {
                 if (usedDecimal) return;
                 usedDecimal = true;
             }
+            //after adding a factorial there need's to be add another operator
+            if (currentVariableNumber == 0) {
+                if (outputFunction.textContent.slice(-1) == "!") {
+                    return;
+                }
+            }
             currentVariableNumber += number.textContent;
             outputFunction.textContent = displayFunctionString + Number(currentVariableNumber);
         })
@@ -22,21 +28,22 @@ function numberListener() {
 function operatorListener() {
     for (let operator of inputOperators) {
         operator.addEventListener("click", () => {
-            displayFunctionString = outputFunction.textContent + operator.textContent;
-            currentVariableNumber=0;
-            usedDecimal=false;
-            outputFunction.textContent = displayFunctionString;
-
+            clickedOperator = operator.textContent;
+            if (clickedOperator != "!") {
+                if (currentVariableNumber == 0 && outputFunction.textContent.slice(-1) != "!") {
+                    outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+                }
+                addOperator(clickedOperator);
+            } else {
+                // the second condition is to prevent duplication of factorial by overriding the last operator
+                if (currentVariableNumber == 0 && outputFunction.textContent.slice(-2, -1) != "!") {
+                    outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+                    addOperator(clickedOperator)
+                }
+            }
         })
     }
 }
-
-
-function onStart() {
-    numberListener();
-    operatorListener();
-}
-
 
 
 //----------------------------------------------------------------- Variables
@@ -76,7 +83,20 @@ function operate(operator, number1, number2) {
     }
 }
 
+function addOperator(clickedOperator) {
+    //store display function for when to add new numbers we don't loose the older ones.
+    displayFunctionString = outputFunction.textContent + clickedOperator;
+    //reset Variables for new variable
+    currentVariableNumber = 0;
+    usedDecimal = false;
+    //render the result
+    outputFunction.textContent = displayFunctionString;
+}
 
+function onStart() {
+    numberListener();
+    operatorListener();
+}
 
 //----------------------------------------------------------------- Run
 outputResult.textContent = calculationResult;
