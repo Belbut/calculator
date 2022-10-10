@@ -13,17 +13,38 @@ function numberListener() {
                 if (usedDecimal) return;
                 usedDecimal = true;
             }
-            calculationFunction += number.textContent;
-            outputFunction.textContent = Number(calculationFunction);
+            currentVariableNumber += number.textContent;
+            outputFunction.textContent = displayFunctionString + Number(currentVariableNumber);
         })
     }
+}
+
+function operatorListener() {
+    for (let operator of inputOperators) {
+        operator.addEventListener("click", () => {
+            displayFunctionString = outputFunction.textContent + operator.textContent;
+            currentVariableNumber=0;
+            usedDecimal=false;
+            outputFunction.textContent = displayFunctionString;
+
+        })
+    }
+}
+
+
+function onStart() {
+    numberListener();
+    operatorListener();
 }
 
 
 
 //----------------------------------------------------------------- Variables
 let calculationResult = ""; // max numbers is 24
-let calculationFunction = "";
+
+let currentVariableNumber = 0;
+let displayFunctionString = "";
+
 let usedDecimal = false;
 const OPERATORS = ["addition", "subtraction", "multiplication", "division", "factorial"];
 
