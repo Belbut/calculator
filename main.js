@@ -14,32 +14,34 @@ function numberListener() {
                 usedDecimal = true;
             }
             //after adding a factorial there need's to be add another operator
-            if (currentVariableNumber == 0) {
-                if (outputFunction.textContent.slice(-1) == "!") {
-                    return;
-                }
+            if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) == "!") {
+                return;
             }
+
             currentVariableNumber += number.textContent;
             outputFunction.textContent = displayFunctionString + Number(currentVariableNumber);
         })
     }
 }
 
+//TODO: Should separate the special case of factorial from the rest of operators listeners;
 function operatorListener() {
     for (let operator of inputOperators) {
         operator.addEventListener("click", () => {
             clickedOperator = operator.textContent;
             if (clickedOperator != "!") {
-                if (currentVariableNumber == 0 && outputFunction.textContent.slice(-1) != "!") {
+                if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) != "!") {
                     outputFunction.textContent = outputFunction.textContent.slice(0, -1);
                 }
                 addOperator(clickedOperator);
             } else {
                 // the second condition is to prevent duplication of factorial by overriding the last operator
-                if (currentVariableNumber == 0 && outputFunction.textContent.slice(-2, -1) != "!") {
-                    outputFunction.textContent = outputFunction.textContent.slice(0, -1);
-                    addOperator(clickedOperator)
-                }
+                if (isLastClickedAnOperator()) {
+                    if (outputFunction.textContent.slice(-2, -1) != "!") {
+                        outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+                        addOperator(clickedOperator);
+                    }
+                } else addOperator(clickedOperator);
             }
         })
     }
@@ -93,6 +95,9 @@ function addOperator(clickedOperator) {
     outputFunction.textContent = displayFunctionString;
 }
 
+function isLastClickedAnOperator() {
+    return isNaN(outputFunction.textContent.slice(-1))
+}
 function onStart() {
     numberListener();
     operatorListener();
