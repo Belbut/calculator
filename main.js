@@ -53,6 +53,10 @@ function backspaceListener() {
             //delete number
             currentVariableNumber = currentVariableNumber.slice(0, -1);
             outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+            if(outputFunction.textContent.length==0){
+                currentVariableNumber = 0;
+                outputFunction.textContent = storedExpressionString + Number(currentVariableNumber);
+            }
         } else if (outputFunction.textContent.slice(-1) == "!") {
             //delete factorial
             outputFunction.textContent = outputFunction.textContent.slice(0, -1);
