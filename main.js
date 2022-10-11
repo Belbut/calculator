@@ -5,6 +5,7 @@ const outputResult = document.getElementById("output-result");
 const inputNumbers = document.getElementsByClassName("number");
 const inputOperators = document.getElementsByClassName("operator");
 
+const inputBackspace = document.getElementById("backspace");
 //----------------------------------------------------------------- Listeners
 function numberListener() {
     for (let number of inputNumbers) {
@@ -17,9 +18,8 @@ function numberListener() {
             if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) == "!") {
                 return;
             }
-
             currentVariableNumber += number.textContent;
-            outputFunction.textContent = displayFunctionString + Number(currentVariableNumber);
+            outputFunction.textContent = storedExpressionString + Number(currentVariableNumber);
         })
     }
 }
@@ -47,12 +47,33 @@ function operatorListener() {
     }
 }
 
+function backspaceListener() {
+    inputBackspace.addEventListener("click", () => {
+        if (!isLastClickedAnOperator()) {
+            //delete number
+            currentVariableNumber = currentVariableNumber.slice(0, -1);
+            outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+        } else if (outputFunction.textContent.slice(-1) == "!") {
+            //delete factorial
+            outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+        } else {
+            // deleting operators
+            storedExpressionString = storedExpressionString.slice(0, -1);
+            outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+            splitString = storedExpressionString.split(/[÷+×-]/);
+            let i = splitString[splitString.length-1].length;
+            currentVariableNumber= storedExpressionString.slice(-i); 
+            storedExpressionString=  storedExpressionString.slice(0,-i);  
+        }
+    })
+}
+
 
 //----------------------------------------------------------------- Variables
 let calculationResult = ""; // max numbers is 24
 
 let currentVariableNumber = 0;
-let displayFunctionString = "";
+let storedExpressionString = "";
 
 let usedDecimal = false;
 const OPERATORS = ["addition", "subtraction", "multiplication", "division", "factorial"];
@@ -86,13 +107,16 @@ function operate(operator, number1, number2) {
 }
 
 function addOperator(clickedOperator) {
-    //store display function for when to add new numbers we don't loose the older ones.
-    displayFunctionString = outputFunction.textContent + clickedOperator;
-    //reset Variables for new variable
-    currentVariableNumber = 0;
-    usedDecimal = false;
+
+    if (clickedOperator != "!") {
+        //store display function for when to add new numbers we don't loose the older ones.
+        storedExpressionString = outputFunction.textContent + clickedOperator;
+        //reset Variables for new variable
+        currentVariableNumber = 0;
+        usedDecimal = false;
+    }
     //render the result
-    outputFunction.textContent = displayFunctionString;
+    outputFunction.textContent = outputFunction.textContent + clickedOperator;
 }
 
 function isLastClickedAnOperator() {
@@ -101,6 +125,7 @@ function isLastClickedAnOperator() {
 function onStart() {
     numberListener();
     operatorListener();
+    backspaceListener();
 }
 
 //----------------------------------------------------------------- Run
