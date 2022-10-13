@@ -10,7 +10,7 @@ const inputClear = document.getElementById("clear");
 const inputResolve = document.getElementById("resolve");
 
 //----------------------------------------------------------------- Variables
-let lastCalculatorSolution = ""; // max numbers is 24
+let lastCalculatorSolution = "";
 
 let currentVariableNumber = 0;
 let storedExpressionString = "";
@@ -20,7 +20,7 @@ function numberListener() {
     for (let number of inputNumbers) {
         number.addEventListener("click", () => {
             if (number.textContent == ".") {
-                if (usedDecimal(currentVariableNumber)) return;
+                if (usingDecimal(currentVariableNumber)) return;
 
             }
             //after adding a factorial there need's to be add another operator
@@ -33,7 +33,7 @@ function numberListener() {
     }
 }
 
-//TODO: Should separate the special case of factorial from the rest of operators listeners;
+//TODO: Could separate the special case of factorial from the rest of operators listeners;
 function operatorListener() {
     for (let operator of inputOperators) {
         operator.addEventListener("click", () => {
@@ -96,8 +96,11 @@ function resolveListener() {
         let factorialProcessedArray = resolveForFactorial(unProcessedArray);
         let multiplicationProcessedArray = resolveForOperator(factorialProcessedArray, "×", "÷");
         let fullProcessedArray = resolveForOperator(multiplicationProcessedArray, "+", "-");
+
         lastCalculatorSolution = Number(fullProcessedArray[0]);
-        outputResult.textContent = lastCalculatorSolution;
+        if (isNaN(lastCalculatorSolution)) {
+            outputResult.textContent = "ERROR DIV/0"
+        } else outputResult.textContent = lastCalculatorSolution;
     })
 }
 
@@ -107,16 +110,23 @@ function resolveListener() {
 const add = (number1, number2) => number1 + number2;
 const subtract = (number1, number2) => number1 - number2;
 const multiply = (number1, number2) => number1 * number2;
-const divide = (number1, number2) => number2 == 0 ? "ERROR" : number1 / number2;
+
+const divide = (number1, number2) => {
+    if (number2 == 0) {
+        alert("Dividing with zero is a impossible to solve")
+        return "ERROR"
+    } else return number1 / number2;
+}
+
 const factorial = (number) => {
-    if (usedDecimal(number)) {
+    if (usingDecimal(number)) {
         alert(`Sorry this is not the calculator for you, we will round your ${number}!`);
         number = Math.round(number);
     }
     return number == 0 ? 1 : number * factorial(number - 1);
 };
 
-let usedDecimal = (a) => (Number(a)) % 1 != 0;
+let usingDecimal = (a) => (Number(a)) % 1 != 0;
 
 function addOperator(clickedOperator) {
 
