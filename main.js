@@ -6,13 +6,14 @@ const inputNumbers = document.getElementsByClassName("number");
 const inputOperators = document.getElementsByClassName("operator");
 
 const inputBackspace = document.getElementById("backspace");
+const inputClear = document.getElementById("clear");
 //----------------------------------------------------------------- Listeners
 function numberListener() {
     for (let number of inputNumbers) {
         number.addEventListener("click", () => {
             if (number.textContent == ".") {
-                if (usedDecimal) return;
-                usedDecimal = true;
+                if (usedDecimal(currentVariableNumber)) return;
+
             }
             //after adding a factorial there need's to be add another operator
             if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) == "!") {
@@ -51,9 +52,10 @@ function backspaceListener() {
     inputBackspace.addEventListener("click", () => {
         if (!isLastClickedAnOperator()) {
             //delete number
+            console.log("delete a number");
             currentVariableNumber = currentVariableNumber.slice(0, -1);
             outputFunction.textContent = outputFunction.textContent.slice(0, -1);
-            if(outputFunction.textContent.length==0){
+            if (outputFunction.textContent.length == 0) {
                 currentVariableNumber = 0;
                 outputFunction.textContent = storedExpressionString + Number(currentVariableNumber);
             }
@@ -65,10 +67,20 @@ function backspaceListener() {
             storedExpressionString = storedExpressionString.slice(0, -1);
             outputFunction.textContent = outputFunction.textContent.slice(0, -1);
             splitString = storedExpressionString.split(/[÷+×-]/);
-            let i = splitString[splitString.length-1].length;
-            currentVariableNumber= storedExpressionString.slice(-i); 
-            storedExpressionString=  storedExpressionString.slice(0,-i);  
+            let i = splitString[splitString.length - 1].length;
+            currentVariableNumber = storedExpressionString.slice(-i);
+            storedExpressionString = storedExpressionString.slice(0, -i);
         }
+    })
+}
+
+function clearListener() {
+    inputClear.addEventListener("click", () => {
+        calculationResult = "";
+        currentVariableNumber = 0;
+        storedExpressionString = "";
+        outputFunction.textContent=0;
+        
     })
 }
 
@@ -79,7 +91,7 @@ let calculationResult = ""; // max numbers is 24
 let currentVariableNumber = 0;
 let storedExpressionString = "";
 
-let usedDecimal = false;
+let usedDecimal = (a) => a % 1 != 0;
 const OPERATORS = ["addition", "subtraction", "multiplication", "division", "factorial"];
 
 //----------------------------------------------------------------- Functions
@@ -124,12 +136,14 @@ function addOperator(clickedOperator) {
 }
 
 function isLastClickedAnOperator() {
-    return isNaN(outputFunction.textContent.slice(-1))
+    let lastClicked = outputFunction.textContent.slice(-1);
+    return isNaN(lastClicked) || lastClicked == ".";
 }
 function onStart() {
     numberListener();
     operatorListener();
     backspaceListener();
+    clearListener();
 }
 
 //----------------------------------------------------------------- Run
