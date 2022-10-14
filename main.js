@@ -20,8 +20,7 @@ function numberListener() {
     for (let number of inputNumbers) {
         number.addEventListener("click", () => {
             if (number.textContent == ".") {
-                if (usingDecimal(currentVariableNumber)) return;
-
+                if (currentVariableNumber.includes(".")) return;
             }
             //after adding a factorial there need's to be add another operator
             if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) == "!") {
@@ -60,7 +59,11 @@ function backspaceListener() {
     inputBackspace.addEventListener("click", () => {
         if (!isLastClickedAnOperator()) {
             //delete number
-            currentVariableNumber = currentVariableNumber.slice(0, -1);
+            try {
+                currentVariableNumber = currentVariableNumber.slice(0, -1)
+            } catch (e){
+            }
+
             outputFunction.textContent = outputFunction.textContent.slice(0, -1);
             if (outputFunction.textContent.length == 0) {
                 currentVariableNumber = 0;
@@ -201,7 +204,6 @@ function resolveOneOperation(array, typeOfOperation, position) {
             break;
 
     }
-    console.log(newArray);
     return newArray;
 }
 
