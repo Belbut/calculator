@@ -16,6 +16,8 @@ let lastCalculatorSolution = "";
 let currentVariableNumber = 0;
 let storedExpressionString = "";
 
+let clickEvent = new Event("click", {});
+
 //----------------------------------------------------------------- Listeners
 function numberListener() {
     for (let number of inputNumbers) {
@@ -100,6 +102,67 @@ function resolveListener() {
         if (isNaN(lastCalculatorSolution)) {
             outputResult.textContent = "ERROR DIV/0"
         } else outputResult.textContent = lastCalculatorSolution;
+    })
+}
+
+function keyboardListener() {
+    const inputNumbersArray = Array.from(inputNumbers);
+
+    document.addEventListener("keydown", (keyEvent) => {
+
+        let keyName = keyEvent.key;
+        switch (keyName) {
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+                inputNumbersArray.find(element => element.textContent == keyName).dispatchEvent(clickEvent);
+                break;
+
+            case "Backspace":
+                inputBackspace.dispatchEvent(clickEvent);
+                break;
+
+            case "Delete":
+                inputClear.dispatchEvent(clickEvent);
+                break;
+
+            case "/":
+                document.getElementById("division").dispatchEvent(clickEvent);
+                break
+
+            case "-":
+                document.getElementById("subtraction").dispatchEvent(clickEvent);
+                break;
+
+            case "+":
+                document.getElementById("addition").dispatchEvent(clickEvent);
+                break;
+
+            case "*":
+                document.getElementById("multiplication").dispatchEvent(clickEvent);
+                break;
+
+            case ",":
+            case ".":
+                document.getElementById("numb-decimal").dispatchEvent(clickEvent);
+                break;
+
+            case "Enter":
+            case "=":
+                document.getElementById("resolve").dispatchEvent(clickEvent);
+                break;
+
+            case "!":
+                document.getElementById("factorial").dispatchEvent(clickEvent);
+                break;
+        }
     })
 }
 
@@ -209,6 +272,7 @@ function onStart() {
     clearListener();
     resolveListener();
     factorialListener();
+    keyboardListener();
 }
 
 //----------------------------------------------------------------- Run
