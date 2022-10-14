@@ -8,6 +8,7 @@ const inputOperators = document.getElementsByClassName("operator");
 const inputBackspace = document.getElementById("backspace");
 const inputClear = document.getElementById("clear");
 const inputResolve = document.getElementById("resolve");
+const inputFactorial = document.getElementById("factorial");
 
 //----------------------------------------------------------------- Variables
 let lastCalculatorSolution = "";
@@ -19,40 +20,36 @@ let storedExpressionString = "";
 function numberListener() {
     for (let number of inputNumbers) {
         number.addEventListener("click", () => {
-            if (number.textContent == ".") {
-                if (currentVariableNumber.includes(".")) return;
-            }
-            //after adding a factorial there need's to be add another operator
-            if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) == "!") {
-                return;
-            }
+            if (number.textContent == "." && currentVariableNumber.includes(".")) return;
+            //After adding a factorial there needs to be add another operator
+            if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) == "!") return;
             currentVariableNumber += number.textContent;
             outputFunction.textContent = storedExpressionString + Number(currentVariableNumber);
         })
     }
 }
 
-//TODO: Could separate the special case of factorial from the rest of operators listeners;
 function operatorListener() {
     for (let operator of inputOperators) {
         operator.addEventListener("click", () => {
             clickedOperator = operator.textContent;
-            if (clickedOperator != "!") {
-                if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) != "!") {
+            if (isLastClickedAnOperator()) {
+                if (outputFunction.textContent.slice(-2, -1) != "!") {
                     outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+                    addOperator(clickedOperator);
                 }
-                addOperator(clickedOperator);
-            } else {
-                // the second condition is to prevent duplication of factorial by overriding the last operator
-                if (isLastClickedAnOperator()) {
-                    if (outputFunction.textContent.slice(-2, -1) != "!") {
-                        outputFunction.textContent = outputFunction.textContent.slice(0, -1);
-                        addOperator(clickedOperator);
-                    }
-                } else addOperator(clickedOperator);
-            }
+            } else addOperator(clickedOperator);
         })
     }
+}
+
+function factorialListener() {
+    inputFactorial.addEventListener("click", () => {
+        if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) != "!") {
+            outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+        }
+        addOperator(inputFactorial.textContent);
+    })
 }
 
 function backspaceListener() {
@@ -61,8 +58,7 @@ function backspaceListener() {
             //delete number
             try {
                 currentVariableNumber = currentVariableNumber.slice(0, -1)
-            } catch (e){
-            }
+            } catch (e) { };
 
             outputFunction.textContent = outputFunction.textContent.slice(0, -1);
             if (outputFunction.textContent.length == 0) {
@@ -107,7 +103,6 @@ function resolveListener() {
     })
 }
 
-
 //----------------------------------------------------------------- Functions
 
 const add = (number1, number2) => number1 + number2;
@@ -147,6 +142,7 @@ function isLastClickedAnOperator() {
     let lastClicked = outputFunction.textContent.slice(-1);
     return isNaN(lastClicked) || lastClicked == ".";
 }
+
 function resolveForFactorial(unProcessedArray) {
     return unProcessedArray.map(number => number.endsWith("!") ? factorial(number.slice(0, -1)) : number);
 }
@@ -202,7 +198,6 @@ function resolveOneOperation(array, typeOfOperation, position) {
                 ...array.slice(position + 2)
             ]
             break;
-
     }
     return newArray;
 }
@@ -213,7 +208,9 @@ function onStart() {
     backspaceListener();
     clearListener();
     resolveListener();
+    factorialListener();
 }
 
 //----------------------------------------------------------------- Run
+
 onStart();
