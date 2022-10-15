@@ -21,7 +21,7 @@ From The Odin Project's [curriculum](https://www.theodinproject.com/lessons/foun
 
 * Implemented basic **Javascript**.
 * Implemented and practiced dynamic manipulation of different **types of data**.
-* Improved skills with debugging with **Chrome DevTools**.
+* Improved debugging skills with **Chrome DevTools**.
 
 ## Author
 

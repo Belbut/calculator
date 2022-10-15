@@ -45,7 +45,6 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    overflow-wrap: break-word;
 }
 
 #output-result {
@@ -55,8 +54,6 @@ body {
     justify-content: flex-end;
     align-items: flex-end;
     overflow: hidden;
-    overflow-wrap: break-word;
-
 }
 
 #input-cc {

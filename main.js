@@ -55,8 +55,6 @@ function factorialListener() {
     })
 }
 
-
-
 function backspaceListener() {
     inputBackspace.addEventListener("click", () => {
         if (!isLastClickedAnOperator()) {
