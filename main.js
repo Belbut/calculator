@@ -36,24 +36,26 @@ function operatorListener() {
     for (let operator of inputOperators) {
         operator.addEventListener("click", () => {
             clickedOperator = operator.textContent;
-            if (isLastClickedAnOperator()) {
-                if (outputFunction.textContent.slice(-2, -1) != "!") {
-                    outputFunction.textContent = outputFunction.textContent.slice(0, -1);
-                    addOperator(clickedOperator);
-                }
-            } else addOperator(clickedOperator);
+            if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) != "!") {
+                outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+            }
+            addOperator(clickedOperator);
         })
     }
 }
-
 function factorialListener() {
     inputFactorial.addEventListener("click", () => {
-        if (isLastClickedAnOperator() && outputFunction.textContent.slice(-1) != "!") {
-            outputFunction.textContent = outputFunction.textContent.slice(0, -1);
-        }
-        addOperator(inputFactorial.textContent);
+        if (isLastClickedAnOperator()) {
+            if (outputFunction.textContent.slice(-2, -1) != "!") {
+                outputFunction.textContent = outputFunction.textContent.slice(0, -1);
+                addOperator(inputFactorial.textContent);
+            }
+        } else addOperator(inputFactorial.textContent);
+
     })
 }
+
+
 
 function backspaceListener() {
     inputBackspace.addEventListener("click", () => {
@@ -113,16 +115,8 @@ function keyboardListener() {
 
         let keyName = keyEvent.key;
         switch (keyName) {
-            case "0":
-            case "1":
-            case "2":
-            case "3":
-            case "4":
-            case "5":
-            case "6":
-            case "7":
-            case "8":
-            case "9":
+
+            case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": case "9":
                 inputNumbersArray.find(element => element.textContent == keyName).dispatchEvent(clickEvent);
                 break;
 
@@ -150,13 +144,11 @@ function keyboardListener() {
                 document.getElementById("multiplication").dispatchEvent(clickEvent);
                 break;
 
-            case ",":
-            case ".":
+            case ",":case ".":
                 document.getElementById("numb-decimal").dispatchEvent(clickEvent);
                 break;
 
-            case "Enter":
-            case "=":
+            case "Enter":case "=":
                 document.getElementById("resolve").dispatchEvent(clickEvent);
                 break;
 
@@ -168,9 +160,9 @@ function keyboardListener() {
 }
 
 function onClickListener() {
-    for(let button of inputAllButtons){
-        button.addEventListener("click", ()=> button.classList.add("changedKey"));
-        button.addEventListener("transitionend", ()=> button.classList.remove("changedKey"));
+    for (let button of inputAllButtons) {
+        button.addEventListener("click", () => button.classList.add("changedKey"));
+        button.addEventListener("transitionend", () => button.classList.remove("changedKey"));
     }
 }
 
