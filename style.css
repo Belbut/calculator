@@ -7,10 +7,10 @@
     --dark-blue: rgb(34, 51, 83);
     --grey: rgba(163, 159, 159, 0.747);
     --dark-grey: rgba(221, 217, 217, 0.925);
+    --darker-grey:rgba(121, 115, 115, 0.925);
     --green: rgba(53, 102, 25, 0.384);
     --bg-color: #a3b2c9;
 }
-
 
 body {
     min-height: 100vh;
@@ -81,6 +81,7 @@ button {
     background-color: var(--dark-grey);
     font-size: 20px;
     font-weight: bold;
+    transition: all .07s ease;
 }
 
 #back {
@@ -95,4 +96,11 @@ button {
 
 #numb-decimal #calculation {
     flex: 1 1 0;
+}
+
+.changedKey {
+    background: var(--darker-grey);
+    -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+    -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+    box-shadow: inset 0px 0px 5px #c1c1c1;
 }

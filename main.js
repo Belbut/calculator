@@ -2,6 +2,7 @@
 const outputFunction = document.getElementById("output-function");
 const outputResult = document.getElementById("output-result");
 
+const inputAllButtons = document.querySelectorAll("button");
 const inputNumbers = document.getElementsByClassName("number");
 const inputOperators = document.getElementsByClassName("operator");
 
@@ -166,6 +167,13 @@ function keyboardListener() {
     })
 }
 
+function onClickListener() {
+    for(let button of inputAllButtons){
+        button.addEventListener("click", ()=> button.classList.add("changedKey"));
+        button.addEventListener("transitionend", ()=> button.classList.remove("changedKey"));
+    }
+}
+
 //----------------------------------------------------------------- Functions
 
 const add = (number1, number2) => number1 + number2;
@@ -273,6 +281,7 @@ function onStart() {
     resolveListener();
     factorialListener();
     keyboardListener();
+    onClickListener();
 }
 
 //----------------------------------------------------------------- Run
